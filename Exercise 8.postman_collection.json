@@ -1,0 +1,633 @@
+{
+	"info": {
+		"_postman_id": "fe2af898-80d0-4efa-b585-b21b91c57a82",
+		"name": "Exercise 8",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36161168",
+		"_collection_link": "https://lively-astronaut-363723.postman.co/workspace/TAKBatch7AnggiWahyuSaputra~5f3a66c0-ec56-4438-8aeb-3feca05c9f0b/collection/36161168-fe2af898-80d0-4efa-b585-b21b91c57a82?action=share&source=collection_link&creator=36161168"
+	},
+	"item": [
+		{
+			"name": "KASIR AJA",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"pass\", \"pass123\");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var respon = JSON.parse(responseBody)\r",
+									"\r",
+									"pm.collectionVariables.set(\"email\", respon.data.email);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"{{$randomNamePrefix}}\",\r\n   \"email\": \"{{$randomEmail}}\",\r\n   \"password\": \"{{pass}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_URL}}/registration",
+							"host": [
+								"{{base_URL}}"
+							],
+							"path": [
+								"registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var respon = JSON.parse(responseBody)\r",
+									"\r",
+									"pm.collectionVariables.set(\"token\", respon.data.accessToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"email\": \"{{email}}\",\r\n   \"password\": \"{{pass}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_URL}}/authentications",
+							"host": [
+								"{{base_URL}}"
+							],
+							"path": [
+								"authentications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add Categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var respon = JSON.parse(responseBody)\r",
+									"\r",
+									"pm.collectionVariables.set(\"idcategory\", respon.data.categoryId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"Batik\",\r\n   \"description\": \"Khusus Batik\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_URL}}/categories",
+							"host": [
+								"{{base_URL}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Detail Categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_URL}}/categories/{{idcategory}}",
+							"host": [
+								"{{base_URL}}"
+							],
+							"path": [
+								"categories",
+								"{{idcategory}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View category list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_URL}}/categories",
+							"host": [
+								"{{base_URL}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var respon = JSON.parse(responseBody)\r",
+									"\r",
+									"pm.collectionVariables.set(\"idcategory\", respon.data.categoryId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"update-batik\",\r\n   \"description\": \"edit khusus batik \"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_URL}}/categories/{{idcategory}}",
+							"host": [
+								"{{base_URL}}"
+							],
+							"path": [
+								"categories",
+								"{{idcategory}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add Categories 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var respon = JSON.parse(responseBody)\r",
+									"\r",
+									"pm.collectionVariables.set(\"idcategory\", respon.data.categoryId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"Batik\",\r\n   \"description\": \"Khusus Batik\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_URL}}/categories",
+							"host": [
+								"{{base_URL}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete categories",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_URL}}/categories/{{idcategory}}",
+							"host": [
+								"{{base_URL}}"
+							],
+							"path": [
+								"categories",
+								"{{idcategory}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add cutomer",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var respon = JSON.parse(responseBody)\r",
+									"\r",
+									"pm.collectionVariables.set(\"idcus\", respon.data.customerId);\r",
+									"pm.collectionVariables.set(\"namecus\", respon.data.name);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"{{$randomNamePrefix}}\",\r\n   \"phone\": \"0\",\r\n   \"address\": \"Joglo\",\r\n   \"description\": \"create\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_URL}}/customers",
+							"host": [
+								"{{base_URL}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "view user detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_URL}}/customers/{{idcus}}",
+							"host": [
+								"{{base_URL}}"
+							],
+							"path": [
+								"customers",
+								"{{idcus}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View user list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_URL}}/customers",
+							"host": [
+								"{{base_URL}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var respon = JSON.parse(responseBody)\r",
+									"\r",
+									"pm.collectionVariables.set(\"idcus\", respon.data.customerId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"{{namecus}}+changes\",\r\n   \"phone\": \"0\",\r\n   \"address\": \"Jakbar\",\r\n   \"description\": \"changes\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_URL}}/customers/{{idcus}}",
+							"host": [
+								"{{base_URL}}"
+							],
+							"path": [
+								"customers",
+								"{{idcus}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add cutomer 2",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var respon = JSON.parse(responseBody)\r",
+									"\r",
+									"pm.collectionVariables.set(\"idcus\", respon.data.customerId);\r",
+									"pm.collectionVariables.set(\"namecus\", respon.data.name);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"{{$randomNamePrefix}}\",\r\n   \"phone\": \"0\",\r\n   \"address\": \"Joglo\",\r\n   \"description\": \"create\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_URL}}/customers",
+							"host": [
+								"{{base_URL}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete customer",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_URL}}/customers/{{idcus}}",
+							"host": [
+								"{{base_URL}}"
+							],
+							"path": [
+								"customers",
+								"{{idcus}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_URL",
+			"value": "https://kasir-api.zelz.my.id",
+			"type": "string"
+		},
+		{
+			"key": "pass",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "idcategory",
+			"value": ""
+		},
+		{
+			"key": "idcus",
+			"value": ""
+		},
+		{
+			"key": "namecus",
+			"value": ""
+		}
+	]
+}
