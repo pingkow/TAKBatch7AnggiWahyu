@@ -17,7 +17,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.collectionVariables.set(\"pass\", \"pass123\");"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -31,9 +31,28 @@
 									"    pm.response.to.have.status(201);\r",
 									"});\r",
 									"\r",
-									"var respon = JSON.parse(responseBody)\r",
+									"var respon = pm.response.json(responseBody);\r",
+									"pm.collectionVariables.set(\"email\", respon.data.email);\r",
 									"\r",
-									"pm.collectionVariables.set(\"email\", respon.data.email);"
+									"var respon = pm.response.json(responseBody);\r",
+									"pm.collectionVariables.set(\"name\", respon.data.name);\r",
+									"\r",
+									"pm.test(\"cek status\", function () {\r",
+									"    pm.expect(respon.status).to.equal(\"success\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"cek message\", function () {\r",
+									"    pm.expect(respon.message).to.equal(\"Toko berhasil didaftarkan\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"cek nama\", function () {\r",
+									"    pm.expect(respon.data.name).to.equal(pm.collectionVariables.get(\"name\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"cek email\", function () {\r",
+									"    pm.expect(respon.data.email).to.equal(pm.collectionVariables.get(\"email\"));\r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -75,9 +94,19 @@
 									"    pm.response.to.have.status(201);\r",
 									"});\r",
 									"\r",
-									"var respon = JSON.parse(responseBody)\r",
+									"var respon = pm.response.json(responseBody);\r",
 									"\r",
-									"pm.collectionVariables.set(\"token\", respon.data.accessToken);"
+									"pm.collectionVariables.set(\"token\", respon.data.accessToken);\r",
+									"\r",
+									"pm.test(\"cek nama\", function () {\r",
+									"    pm.expect(respon.data.user.name).to.equal(pm.collectionVariables.get(\"name\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"cek email\", function () {\r",
+									"    pm.expect(respon.data.user.email).to.equal(pm.collectionVariables.get(\"email\"));\r",
+									"});\r",
+									"\r",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -89,7 +118,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"email\": \"{{email}}\",\r\n   \"password\": \"{{pass}}\"\r\n}\r\n",
+							"raw": "{\r\n   \"email\": \"{{email}}\",\r\n   \"password\": \"{{pass}}\"\r\n} ",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -121,7 +150,26 @@
 									"\r",
 									"var respon = JSON.parse(responseBody)\r",
 									"\r",
-									"pm.collectionVariables.set(\"idcategory\", respon.data.categoryId);"
+									"pm.collectionVariables.set(\"idcategory\", respon.data.categoryId);\r",
+									"\r",
+									"pm.test(\"cek status\", function () {\r",
+									"    pm.expect(respon.status).to.equal(\"success\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"cek message\", function () {\r",
+									"    pm.expect(respon.message).to.equal(\"Category berhasil ditambahkan\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -160,6 +208,21 @@
 				},
 				{
 					"name": "View Detail Categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -184,6 +247,21 @@
 				},
 				{
 					"name": "View category list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -212,13 +290,16 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"// Removed the incorrect line for parsing JSON\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
 									"var respon = JSON.parse(responseBody)\r",
 									"\r",
-									"pm.collectionVariables.set(\"idcategory\", respon.data.categoryId);"
+									"pm.test(\"cek status\", function () {\r",
+									"    pm.expect(respon.status).to.equal(\"success\");\r",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -269,7 +350,15 @@
 									"\r",
 									"var respon = JSON.parse(responseBody)\r",
 									"\r",
-									"pm.collectionVariables.set(\"idcategory\", respon.data.categoryId);"
+									"pm.collectionVariables.set(\"idcategory\", respon.data.categoryId);\r",
+									"\r",
+									"pm.test(\"cek status\", function () {\r",
+									"    pm.expect(respon.status).to.equal(\"success\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"cek message\", function () {\r",
+									"    pm.expect(respon.message).to.equal(\"Category berhasil ditambahkan\");\r",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -308,6 +397,22 @@
 				},
 				{
 					"name": "delete categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var respon = JSON.parse(responseBody)\r",
+									"\r",
+									"pm.test(\"cek status\", function () {\r",
+									"    pm.expect(respon.status).to.equal(\"success\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -354,7 +459,15 @@
 									"var respon = JSON.parse(responseBody)\r",
 									"\r",
 									"pm.collectionVariables.set(\"idcus\", respon.data.customerId);\r",
-									"pm.collectionVariables.set(\"namecus\", respon.data.name);"
+									"pm.collectionVariables.set(\"namecus\", respon.data.name);\r",
+									"\r",
+									"pm.test(\"cek status\", function () {\r",
+									"    pm.expect(respon.status).to.equal(\"success\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"cek message\", function () {\r",
+									"    pm.expect(respon.message).to.equal(\"Customer berhasil ditambahkan\");\r",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -417,6 +530,21 @@
 				},
 				{
 					"name": "View user list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -513,7 +641,15 @@
 									"var respon = JSON.parse(responseBody)\r",
 									"\r",
 									"pm.collectionVariables.set(\"idcus\", respon.data.customerId);\r",
-									"pm.collectionVariables.set(\"namecus\", respon.data.name);"
+									"pm.collectionVariables.set(\"namecus\", respon.data.name);\r",
+									"\r",
+									"pm.test(\"cek status\", function () {\r",
+									"    pm.expect(respon.status).to.equal(\"success\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"cek message\", function () {\r",
+									"    pm.expect(respon.message).to.equal(\"Customer berhasil ditambahkan\");\r",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -552,6 +688,25 @@
 				},
 				{
 					"name": "delete customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var respon = JSON.parse(responseBody)\r",
+									"\r",
+									"pm.test(\"cek status\", function () {\r",
+									"    pm.expect(respon.status).to.equal(\"success\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -627,6 +782,10 @@
 		},
 		{
 			"key": "namecus",
+			"value": ""
+		},
+		{
+			"key": "name",
 			"value": ""
 		}
 	]
