@@ -271,6 +271,7 @@ class DemoWeb(unittest.TestCase):
         Heading_Chekcout = driver.find_element(By.XPATH, "//h1[normalize-space()='Checkout']").text
         self.assertEqual('Checkout', Heading_Chekcout)
 
+    # 3 positive Shopping Cart - Checkout
     def test_20_success_checkout (self):
         driver = self.driver
         driver.get("https://demowebshop.tricentis.com/")
