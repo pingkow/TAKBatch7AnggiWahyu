@@ -45,9 +45,9 @@ describe('CreateAccountMagento', () => {
         cy.get('.panel > .header > :nth-child(3) > a').click();
         cy.get('#firstname').type("Wahyu");
         cy.get('#lastname').type("Saputra");
-        cy.get('#email_address').type("Wahyusaputra1@mailo.co")
-        cy.get('#password').type("Password123")
-        cy.get('#password-confirmation').type("Password123")
+        cy.get('#email_address').type("Wahyusaputra2@mailo.co");
+        cy.get('#password').type("Password123");
+        cy.get('#password-confirmation').type("Password123");
         cy.get('#form-validate > .actions-toolbar > div.primary > .action > span').click();
 
         //verify success

@@ -8,6 +8,7 @@ describe('Checkout', () => {
     it("Positive case EditAccount success", () => {
         //login with command
         cy.login_command();
+        
 
 
     });

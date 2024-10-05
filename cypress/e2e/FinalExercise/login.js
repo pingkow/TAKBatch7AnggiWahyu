@@ -1,4 +1,4 @@
-describe('CreateAccountMagento', () => {
+describe('LoginAccountMagento', () => {
     beforeEach(() => {
         cy.visit("/");
     })
